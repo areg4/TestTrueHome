@@ -15,7 +15,7 @@ class Property(models.Model):
     description = models.TextField(max_length=500,null=False,blank=False)
     created_at = models.DateTimeField(auto_now_add=True,null=False,blank=False)
     updated_at =models.DateTimeField(auto_now=True,null=False,blank=False)
-    disabled_at = models.DateTimeField()
+    disabled_at = models.DateTimeField(null=True)
     status = models.CharField(choices=StatusEnum.choices,default=StatusEnum.ACTIVE,max_length=35,null=False,blank=False)
 
 class Activity(models.Model):

@@ -173,7 +173,7 @@ class ActivityViewsets(viewsets.ModelViewSet):
                 condition = activity.status
             
             dataSurvey = {
-                "url" : "127.0.0.1:8000/api/survey/{}/".format(activity.id)
+                "url" : "https://apitruehomegeragg.herokuapp.com/api/survey/{}/".format(activity.id)
             }
 
 
@@ -245,7 +245,7 @@ class ActivityViewsets(viewsets.ModelViewSet):
                     condition = activity.status
                 
                 dataSurvey = {
-                    "url" : "127.0.0.1:8000/api/survey/{}/".format(activity.id)
+                    "url" : "https://apitruehomegeragg.herokuapp.com/api/survey/{}/".format(activity.id)
                 }
 
 

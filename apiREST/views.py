@@ -22,11 +22,37 @@ class PropertyViewsets(viewsets.ModelViewSet):
     serializer_class = PropertySerializers
 
 class ActivityViewsets(viewsets.ModelViewSet):
+    """
+        Clase para la API de Activity
+
+        @method [POST, GET, PUT, DELETE]
+
+        @responses:
+            - 200 : OK
+            - 201 : CREATED
+            - 204 : DELETED
+            - 404 : NOT FOUND
+            - 400 : BAD REQUEST
+            - 500 : INTERNAL SERVER ERROR
+    """
     http_method_names = ['get', 'post','put','delete']
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializers
 
     def create(self, request, *args, **kwargs):
+        """
+            Función que llama por POST
+            @method:
+                POST
+            @params:
+                - property_id   : int
+                - schedule      : datetime
+                - title         : String
+            @response:
+                - 201 : CREATED
+                - 400 : BAD REQUEST
+                - 500 : INTERNAL SERVER ERROR
+        """
         try:
             property = Property.objects.get(id=request.data['property_id'])        
             if StatusEnum(property.status) is not StatusEnum.ACTIVE:
@@ -52,6 +78,18 @@ class ActivityViewsets(viewsets.ModelViewSet):
             return Response(data=dataEx,status=HTTP_500_INTERNAL_SERVER_ERROR)
 
     def update(self, request, pk=None):
+        """
+            Función que es llamada por PUT
+            @method:
+                PUT
+            @params:
+                - id : int
+                - schedule : datetime
+            @response:
+                - 200 : OK
+                - 400 : BAD REQUEST
+                - 500 : INTERNAL SERVER ERROR
+        """
         activity = Activity.objects.get(pk=pk)
         try:
             activities = Activity.objects.filter(
@@ -81,6 +119,17 @@ class ActivityViewsets(viewsets.ModelViewSet):
             return Response(data=dataEx,status=HTTP_500_INTERNAL_SERVER_ERROR)
 
     def destroy(self,request, pk=None):
+        """
+            Función que se llama por DELETE
+            @method:
+                DELETE
+            @params:
+                - id : int
+            @response:
+                - 204 : NO CONTENT
+                - 400 : BAD REQUEST
+                - 500 : INTERNAL SERVER ERROR
+        """
         try:
             activity = Activity.objects.get(pk=pk)
             if StatusEnum(activity.status) is StatusEnum.DEACTIVATE:
@@ -99,6 +148,17 @@ class ActivityViewsets(viewsets.ModelViewSet):
             return Response(data=dataEx,status=HTTP_500_INTERNAL_SERVER_ERROR)
 
     def retrieve(self, request,pk=None):
+        """
+            Función que se llama por GET con id en la URL
+            @method:
+                GET
+            @params:
+                - id : int
+            @response:
+                - 200 : OK
+                - 400 : BAD REQUEST
+                - 500 : INTERNAL SERVER ERROR
+        """
         try:
             activity = Activity.objects.get(pk=pk)
             if StatusEnum(activity.status) is StatusEnum.ACTIVE \
@@ -142,6 +202,19 @@ class ActivityViewsets(viewsets.ModelViewSet):
             return Response(data=dataEx,status=HTTP_500_INTERNAL_SERVER_ERROR)
 
     def list(self, request):
+        """
+            Función que se llama por GET
+            @method:
+                GET
+            @params:
+                - status : String (opcional)
+                - start_date : datetime (opcional)
+                - end_date : datetime (opcional)
+            @response:
+                - 200 : OK
+                - 400 : BAD REQUEST
+                - 500 : INTERNAL SERVER ERROR
+        """
         try:
             try:
                 if "status" in request.data:
@@ -203,6 +276,16 @@ class ActivityViewsets(viewsets.ModelViewSet):
 
 
 class SurveyViewsets(viewsets.ModelViewSet):
+    """
+        Clase para el API de Survey
+        
+        @method [GET]
+
+        responses:
+            - 200 : OK
+            - 400 : BAD REQUEST
+            - 500 : INTERNAL SERVER ERROR
+    """
     http_method_names = ['get']
     queryset = Survey.objects.all()
     serializer_class = SurveySerializers
